@@ -26,6 +26,14 @@
 
 typedef int upxfmt_t;
 
+//rtp数据包ID
+struct rtp_header_id
+{
+    //序列号
+    unsigned short seq;
+    //时间戳
+    unsigned int timestamp;
+};
 
 /*  data stream context
  */
@@ -34,6 +42,12 @@ struct dstream_ctx {
     int32_t         flags;
     size_t          mtu;
 
+    //rtp数据包历史记录
+    struct rtp_header_id history[65536];
+
+    //待进行重复包测试的rtp包头部    
+    struct rtp_header_id new_rtp_package_header;
+    
     struct iovec*   pkt;
     int32_t         max_pkt,
                     pkt_count;
